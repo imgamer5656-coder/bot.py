@@ -448,74 +448,46 @@ hr {{ border-color: {T['border']} !important; margin: 0.8rem 0 !important; }}
     flex-shrink: 0;
 }}
 
-/* ── Mobile Sidebar Toggle Button ── */
-.mobile-menu-btn {{
-    display: none;
-    position: fixed;
-    bottom: 90px;
-    left: 16px;
-    z-index: 99999;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: {T['accent']};
-    color: #fff;
-    font-size: 1.4rem;
-    border: none;
-    cursor: pointer;
-    box-shadow: 0 4px 24px {T['accent']}88;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.2s, transform 0.15s;
-}}
-.mobile-menu-btn:hover {{
-    background: {T['btn_hover']};
-    transform: scale(1.08);
-}}
+/* ── Mobile: Style Streamlit's native sidebar toggle ── */
 @media (max-width: 768px) {{
-    .mobile-menu-btn {{ display: flex !important; }}
+    /* The native collapsed sidebar button */
+    [data-testid="collapsedControl"] {{
+        display: flex !important;
+        position: fixed !important;
+        bottom: 90px !important;
+        left: 16px !important;
+        top: auto !important;
+        z-index: 99999 !important;
+        width: 52px !important;
+        height: 52px !important;
+        border-radius: 50% !important;
+        background: {T['accent']} !important;
+        color: #fff !important;
+        font-size: 1.4rem !important;
+        border: none !important;
+        cursor: pointer !important;
+        box-shadow: 0 4px 24px {T['accent']}88 !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }}
+    [data-testid="collapsedControl"] svg {{
+        fill: #fff !important;
+        width: 22px !important;
+        height: 22px !important;
+    }}
+    /* Close button inside open sidebar */
+    [data-testid="stSidebar"] [data-testid="collapsedControl"] {{
+        left: auto !important;
+        right: 8px !important;
+        bottom: auto !important;
+        top: 8px !important;
+    }}
 }}
 
 /* ── Hide Streamlit chrome ── */
 #MainMenu, footer, header {{ visibility: hidden; }}
 .stDeployButton {{ display: none; }}
 </style>
-""", unsafe_allow_html=True)
-
-# ─────────────────────────────────────────────
-# MOBILE SIDEBAR TOGGLE BUTTON
-# ─────────────────────────────────────────────
-st.markdown("""
-<button class="mobile-menu-btn" onclick="toggleSidebar()" title="Menu">☰</button>
-<script>
-function toggleSidebar() {
-    var doc = window.parent.document;
-    // Try Streamlit's built-in collapsed/open button
-    var btn = doc.querySelector('[data-testid="collapsedControl"]');
-    if (!btn) {
-        btn = doc.querySelector('button[aria-label="Close sidebar"]');
-    }
-    if (!btn) {
-        btn = doc.querySelector('button[aria-label="Open sidebar"]');
-    }
-    if (btn) {
-        btn.click();
-        return;
-    }
-    // Fallback: manually toggle sidebar transform
-    var sidebar = doc.querySelector('[data-testid="stSidebar"]');
-    if (sidebar) {
-        var rect = sidebar.getBoundingClientRect();
-        if (rect.left < 0) {
-            sidebar.style.transition = 'transform 0.3s ease';
-            sidebar.style.transform = 'translateX(0)';
-        } else {
-            sidebar.style.transition = 'transform 0.3s ease';
-            sidebar.style.transform = 'translateX(-110%)';
-        }
-    }
-}
-</script>
 """, unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────
