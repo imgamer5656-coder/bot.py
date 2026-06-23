@@ -1,11 +1,12 @@
 """
-NeoChat AI — Premium Professional Edition
+NeoChat AI — Premium Professional Edition (MOBILE OPTIMIZED)
 Features:
   - Text chat (Groq LLM - Llama 3.3 70B)
   - Image generation (Pollinations.ai — free, unlimited, no key)
   - Image upload + analysis (Groq meta-llama/llama-4-scout-17b-16e-instruct)
   - Multi-conversation history with rename & delete
   - Fully premium dark UI with theme switcher
+  - ✅ MOBILE RESPONSIVE SIDEBAR & NAVIGATION
 
 Run locally:
   streamlit run app.py
@@ -29,7 +30,7 @@ st.set_page_config(
     page_title="NeoChat AI",
     page_icon="✦",
     layout="wide",
-    initial_sidebar_state="expanded",
+    initial_sidebar_state="auto",
 )
 
 # ─────────────────────────────────────────────
@@ -126,6 +127,7 @@ if "current_chat_id" not in st.session_state:
 if "mode"          not in st.session_state: st.session_state.mode          = "Chat"
 if "system_prompt" not in st.session_state: st.session_state.system_prompt = "You are NeoChat AI, a brilliant and helpful assistant. Be concise, clear, and insightful."
 if "rename_id"     not in st.session_state: st.session_state.rename_id     = None
+if "mobile_menu_open" not in st.session_state: st.session_state.mobile_menu_open = False
 
 T = THEMES[st.session_state.theme]
 
@@ -143,7 +145,7 @@ def new_chat():
     st.session_state.current_chat_id = _id
 
 # ─────────────────────────────────────────────
-# GLOBAL CSS
+# GLOBAL CSS (MOBILE OPTIMIZED)
 # ─────────────────────────────────────────────
 st.markdown(f"""
 <style>
@@ -183,7 +185,7 @@ section[data-testid="stSidebar"] > div {{ padding: 1.2rem 1rem; }}
     padding: 12px 18px;
     border-radius: 18px 18px 4px 18px;
     margin: 6px 0 6px auto;
-    max-width: 78%;
+    max-width: 85%;
     font-size: 0.93rem;
     line-height: 1.6;
     word-break: break-word;
@@ -195,7 +197,7 @@ section[data-testid="stSidebar"] > div {{ padding: 1.2rem 1rem; }}
     padding: 14px 18px;
     border-radius: 18px 18px 18px 4px;
     margin: 6px auto 6px 0;
-    max-width: 82%;
+    max-width: 85%;
     font-size: 0.93rem;
     line-height: 1.7;
     border: 1px solid {T['border']};
@@ -216,6 +218,7 @@ section[data-testid="stSidebar"] > div {{ padding: 1.2rem 1rem; }}
     padding: 12px 14px;
     overflow-x: auto;
     margin: 10px 0;
+    font-size: 0.8rem;
 }}
 
 /* ── Header ── */
@@ -449,19 +452,19 @@ hr {{ border-color: {T['border']} !important; margin: 0.8rem 0 !important; }}
     flex-shrink: 0;
 }}
 
-/* ── Streamlit native sidebar toggle — always visible & styled ── */
+/* ── Streamlit native sidebar toggle ── */
 [data-testid="collapsedControl"] {{
     display: flex !important;
     visibility: visible !important;
     opacity: 1 !important;
     position: fixed !important;
-    bottom: 90px !important;
-    left: 14px !important;
+    bottom: 20px !important;
+    left: 20px !important;
     top: auto !important;
     right: auto !important;
-    width: 52px !important;
-    height: 52px !important;
-    min-width: 52px !important;
+    width: 50px !important;
+    height: 50px !important;
+    min-width: 50px !important;
     border-radius: 50% !important;
     background: {T['accent']} !important;
     border: none !important;
@@ -469,15 +472,18 @@ hr {{ border-color: {T['border']} !important; margin: 0.8rem 0 !important; }}
     box-shadow: 0 4px 22px {T['accent']}99 !important;
     align-items: center !important;
     justify-content: center !important;
-    z-index: 999999 !important;
-    transition: transform 0.15s !important;
+    z-index: 999 !important;
+    transition: transform 0.15s, bottom 0.15s !important;
 }}
 [data-testid="collapsedControl"]:active {{
     transform: scale(0.93) !important;
 }}
+[data-testid="collapsedControl"]:hover {{
+    bottom: 24px !important;
+}}
 [data-testid="collapsedControl"] svg {{
-    width: 22px !important;
-    height: 22px !important;
+    width: 20px !important;
+    height: 20px !important;
     fill: #ffffff !important;
     color: #ffffff !important;
 }}
@@ -485,6 +491,180 @@ hr {{ border-color: {T['border']} !important; margin: 0.8rem 0 !important; }}
 /* ── Hide Streamlit chrome ── */
 #MainMenu, footer, header {{ visibility: hidden; }}
 .stDeployButton {{ display: none; }}
+
+/* ─────────────────────────────────────────────
+   MOBILE RESPONSIVE DESIGN (< 768px)
+   ───────────────────────────────────────────── */
+@media (max-width: 768px) {{
+    .block-container {{
+        max-width: 100%;
+        padding: 1rem 0.8rem 5rem 0.8rem;
+    }}
+    
+    .neo-title {{
+        font-size: 1.3rem;
+    }}
+    
+    .neo-header {{
+        gap: 8px;
+        margin-bottom: 0.2rem;
+    }}
+    
+    .neo-logo {{
+        width: 32px;
+        height: 32px;
+        font-size: 1.1rem;
+    }}
+    
+    .bubble-user {{
+        max-width: 88%;
+        padding: 10px 14px;
+        font-size: 0.9rem;
+    }}
+    
+    .bubble-ai {{
+        max-width: 88%;
+        padding: 12px 14px;
+        font-size: 0.9rem;
+    }}
+    
+    .avatar {{
+        width: 28px;
+        height: 28px;
+        font-size: 0.75rem;
+    }}
+    
+    .chat-row {{
+        gap: 6px;
+    }}
+    
+    .model-badge {{
+        font-size: 0.65rem;
+        padding: 2px 8px;
+    }}
+    
+    .section-label {{
+        font-size: 0.65rem;
+        margin: 0.8rem 0 0.3rem 0;
+    }}
+    
+    .stButton > button {{
+        font-size: 0.8rem;
+        padding: 6px 10px;
+    }}
+    
+    div[data-testid="stChatInput"] textarea {{
+        font-size: 0.9rem;
+        padding: 10px 12px;
+    }}
+    
+    .stats-row {{
+        gap: 6px;
+        margin-bottom: 1rem;
+    }}
+    
+    .stat-card {{
+        padding: 8px 12px;
+        min-width: 80px;
+    }}
+    
+    .stat-val {{
+        font-size: 1.1rem;
+    }}
+    
+    .stat-lbl {{
+        font-size: 0.6rem;
+    }}
+    
+    .tag {{
+        font-size: 0.65rem;
+        padding: 1px 7px;
+    }}
+    
+    /* Sidebar on mobile */
+    section[data-testid="stSidebar"] {{
+        padding: 0.8rem 0.6rem !important;
+    }}
+    
+    section[data-testid="stSidebar"] > div {{
+        padding: 0.8rem 0.6rem !important;
+    }}
+    
+    .neo-subtitle {{
+        font-size: 0.75rem;
+        margin-bottom: 0.8rem;
+    }}
+    
+    /* Make buttons stack better on mobile */
+    div[data-testid="stButton"] {{
+        width: 100%;
+    }}
+    
+    /* Adjust expander on mobile */
+    .streamlit-expanderHeader {{
+        font-size: 0.8rem;
+    }}
+    
+    /* Better chat input spacing */
+    div[data-testid="stChatInput"] {{
+        margin: 0 !important;
+    }}
+}}
+
+/* ─────────────────────────────────────────────
+   SMALL MOBILE (< 480px)
+   ───────────────────────────────────────────── */
+@media (max-width: 480px) {{
+    .block-container {{
+        padding: 0.8rem 0.6rem 5rem 0.6rem;
+    }}
+    
+    .neo-title {{
+        font-size: 1.1rem;
+    }}
+    
+    .neo-logo {{
+        width: 28px;
+        height: 28px;
+        font-size: 0.95rem;
+    }}
+    
+    .bubble-user, .bubble-ai {{
+        max-width: 92%;
+        font-size: 0.85rem;
+        padding: 8px 12px;
+    }}
+    
+    [data-testid="collapsedControl"] {{
+        width: 45px !important;
+        height: 45px !important;
+        bottom: 15px !important;
+        left: 15px !important;
+    }}
+    
+    [data-testid="collapsedControl"] svg {{
+        width: 18px !important;
+        height: 18px !important;
+    }}
+    
+    .model-badge {{
+        font-size: 0.6rem;
+        padding: 1px 6px;
+    }}
+    
+    .stat-card {{
+        padding: 6px 10px;
+        min-width: 70px;
+    }}
+    
+    .stat-val {{
+        font-size: 0.95rem;
+    }}
+    
+    .stat-lbl {{
+        font-size: 0.55rem;
+    }}
+}}
 </style>
 """, unsafe_allow_html=True)
 
@@ -538,20 +718,20 @@ with st.sidebar:
     <div class="neo-header">
         <div class="neo-logo">✦</div>
         <div>
-            <div class="neo-title">NeoChat AI</div>
+            <div class="neo-title" style="font-size: 1.3rem;">NeoChat</div>
         </div>
     </div>
-    <div class="neo-subtitle">Powered by Groq · Llama 3.3 · Vision AI</div>
+    <div class="neo-subtitle">Groq · Llama 3.3 · Vision</div>
     """, unsafe_allow_html=True)
 
     # New chat button
-    if st.button("＋  New Conversation", use_container_width=True, type="primary"):
+    if st.button("＋  New Chat", use_container_width=True, type="primary"):
         new_chat()
         st.rerun()
 
     # ── Mode ──
     st.markdown('<div class="section-label">Mode</div>', unsafe_allow_html=True)
-    mode_icons = {"Chat": "💬  Chat", "Image Generation": "🎨  Image Generation"}
+    mode_icons = {"Chat": "💬  Chat", "Image Generation": "🎨  Images"}
     selected_mode = st.radio(
         "mode",
         list(mode_icons.keys()),
@@ -582,7 +762,7 @@ with st.sidebar:
         new_sp = st.text_area(
             "System prompt",
             value=st.session_state.system_prompt,
-            height=100,
+            height=80,
             label_visibility="collapsed",
         )
         if st.button("Apply", use_container_width=True):
@@ -592,16 +772,16 @@ with st.sidebar:
     st.markdown("---")
 
     # ── History ──
-    st.markdown('<div class="section-label">Conversations</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-label">Chats</div>', unsafe_allow_html=True)
     for cid in reversed(list(st.session_state.conversations.keys())):
         conv  = st.session_state.conversations[cid]
-        label = conv["title"] or "New Conversation"
+        label = conv["title"] or "New Chat"
         is_active = (cid == st.session_state.current_chat_id)
         msg_count = len(conv["messages"])
 
         cols = st.columns([6, 1])
         with cols[0]:
-            btn_label = f"{'▶ ' if is_active else ''}{label[:30]}" + (f"  [{msg_count}]" if msg_count else "")
+            btn_label = f"{'▶ ' if is_active else ''}{label[:25]}" + (f"  [{msg_count}]" if msg_count else "")
             if st.button(btn_label, key=f"sel_{cid}", use_container_width=True):
                 st.session_state.current_chat_id = cid
                 st.rerun()
@@ -618,8 +798,8 @@ with st.sidebar:
     total_msgs = sum(len(c["messages"]) for c in st.session_state.conversations.values())
     total_chats = len(st.session_state.conversations)
     st.markdown(f"""
-    <div style="font-size:0.72rem; color:{T['muted']}; text-align:center; padding: 4px 0;">
-        {total_chats} conversation{"s" if total_chats!=1 else ""} &nbsp;·&nbsp; {total_msgs} message{"s" if total_msgs!=1 else ""}
+    <div style="font-size:0.7rem; color:{T['muted']}; text-align:center; padding: 4px 0;">
+        {total_chats} chat{"s" if total_chats!=1 else ""} &nbsp;·&nbsp; {total_msgs} msg{"s" if total_msgs!=1 else ""}
     </div>
     """, unsafe_allow_html=True)
 
@@ -630,21 +810,20 @@ with st.sidebar:
 st.markdown(f"""
 <div class="neo-header" style="margin-bottom:4px;">
     <div class="neo-logo" style="width:34px;height:34px;font-size:1.1rem;">✦</div>
-    <div class="neo-title" style="font-size:1.4rem;">NeoChat AI</div>
+    <div class="neo-title" style="font-size:1.3rem;">NeoChat AI</div>
 </div>
 """, unsafe_allow_html=True)
 
 if st.session_state.mode == "Chat":
     st.markdown(f"""
     <div class="model-badge">
-        <span style="color:{T['accent']};">●</span> {TEXT_MODEL}
-        &nbsp;|&nbsp; Vision: {VISION_MODEL.split('/')[-1]}
+        <span style="color:{T['accent']};">●</span> Llama 3.3 · Vision AI
     </div>
     """, unsafe_allow_html=True)
 else:
     st.markdown(f"""
     <div class="model-badge">
-        <span style="color:{T['accent']};">●</span> Pollinations.ai &nbsp;|&nbsp; Free · Unlimited · No Key
+        <span style="color:{T['accent']};">●</span> Free Image Generation
     </div>
     """, unsafe_allow_html=True)
 
@@ -652,18 +831,18 @@ else:
 # IMAGE GENERATION MODE
 # ─────────────────────────────────────────────
 if st.session_state.mode == "Image Generation":
-    st.markdown(f'<div style="color:{T["muted"]};font-size:0.85rem;margin-bottom:1rem;">Describe any image — it will be generated in seconds for free.</div>', unsafe_allow_html=True)
+    st.markdown(f'<div style="color:{T["muted"]};font-size:0.85rem;margin-bottom:1rem;">Describe any image you want — generated for free.</div>', unsafe_allow_html=True)
 
-    col1, col2, col3 = st.columns([4, 1.5, 1.2])
+    img_prompt = st.text_input(
+        "prompt",
+        placeholder="e.g. cyberpunk city, 8k, cinematic...",
+        label_visibility="collapsed",
+    )
+
+    col1, col2 = st.columns(2)
     with col1:
-        img_prompt = st.text_input(
-            "prompt",
-            placeholder="e.g. a futuristic cyberpunk city at dawn, 8k, cinematic",
-            label_visibility="collapsed",
-        )
-    with col2:
         aspect = st.selectbox("Size", ["Square 1:1", "Portrait 3:4", "Landscape 4:3", "Wide 16:9"], label_visibility="collapsed")
-    with col3:
+    with col2:
         style  = st.selectbox("Style", ["Default", "Photorealistic", "Anime", "Oil Painting", "Sketch"], label_visibility="collapsed")
 
     size_map = {
@@ -680,25 +859,26 @@ if st.session_state.mode == "Image Generation":
         "Sketch": ", pencil sketch, hand drawn, detailed linework",
     }
 
-    gen_btn = st.button("✦  Generate Image", type="primary", use_container_width=False)
+    gen_btn = st.button("✦  Generate", type="primary", use_container_width=True)
 
     if gen_btn and img_prompt.strip():
         final_prompt = img_prompt + style_suffix.get(style, "")
-        with st.spinner("Creating your image…"):
+        with st.spinner("Creating…"):
             try:
                 w, h = size_map[aspect]
                 img_bytes = generate_image(final_prompt, w, h)
 
                 st.markdown(f'<div class="img-card">', unsafe_allow_html=True)
                 st.image(img_bytes, use_container_width=True)
-                st.markdown(f'<div class="img-card-footer">🖼️ {img_prompt} &nbsp;·&nbsp; <span class="tag">{aspect}</span><span class="tag">{style}</span></div>', unsafe_allow_html=True)
+                st.markdown(f'<div class="img-card-footer">🖼️ {img_prompt[:40]} &nbsp;·&nbsp; <span class="tag">{aspect}</span></div>', unsafe_allow_html=True)
                 st.markdown('</div>', unsafe_allow_html=True)
 
                 st.download_button(
-                    "⬇️  Download Image",
+                    "⬇️  Download",
                     data=img_bytes,
                     file_name=f"neochat_{datetime.now().strftime('%Y%m%d_%H%M%S')}.png",
                     mime="image/png",
+                    use_container_width=True,
                 )
 
                 current_messages().append({"role": "user",      "content": f"🖼️ {img_prompt}"})
@@ -706,18 +886,18 @@ if st.session_state.mode == "Image Generation":
                 set_chat_title(img_prompt)
 
             except Exception as e:
-                st.error(f"Image generation failed: {e}")
+                st.error(f"Error: {e}")
 
     elif gen_btn:
-        st.warning("Enter a description first.")
+        st.warning("Enter a description first")
 
-    # Gallery of previous images
+    # Gallery
     prev_imgs = [m for m in current_messages() if m.get("image")]
     if prev_imgs:
-        st.markdown(f'<div class="section-label" style="margin-top:1.5rem;">Gallery — this session</div>', unsafe_allow_html=True)
-        gcols = st.columns(min(len(prev_imgs), 3))
+        st.markdown(f'<div class="section-label" style="margin-top:1.5rem;">Gallery</div>', unsafe_allow_html=True)
+        gcols = st.columns(min(len(prev_imgs), 2))
         for i, m in enumerate(prev_imgs):
-            with gcols[i % 3]:
+            with gcols[i % 2]:
                 st.image(m["image"], use_container_width=True)
 
 # ─────────────────────────────────────────────
@@ -729,16 +909,16 @@ else:
     # Welcome screen
     if not msgs:
         st.markdown(f"""
-        <div style="text-align:center; padding: 3rem 1rem; color:{T['muted']};">
-            <div style="font-size:2.5rem; margin-bottom:0.8rem;">✦</div>
-            <div style="font-size:1.1rem; font-weight:600; color:{T['text']}; margin-bottom:0.5rem;">How can I help you today?</div>
-            <div style="font-size:0.85rem;">Ask anything, upload an image, or switch to Image Generation mode.</div>
+        <div style="text-align:center; padding: 2rem 1rem; color:{T['muted']};">
+            <div style="font-size:2.2rem; margin-bottom:0.8rem;">✦</div>
+            <div style="font-size:1rem; font-weight:600; color:{T['text']}; margin-bottom:0.4rem;">What can I help with?</div>
+            <div style="font-size:0.8rem;">Ask anything, upload images, or switch to Image Generation.</div>
         </div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:1rem;">
-            <span class="tag">💡 Explain concepts</span>
-            <span class="tag">📝 Write & edit</span>
-            <span class="tag">🔍 Analyze images</span>
-            <span class="tag">💻 Debug code</span>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-top:0.8rem;">
+            <span class="tag">💡 Ideas</span>
+            <span class="tag">📝 Write</span>
+            <span class="tag">🔍 Analyze</span>
+            <span class="tag">💻 Code</span>
             <span class="tag">🌐 Translate</span>
         </div>
         """, unsafe_allow_html=True)
@@ -746,7 +926,7 @@ else:
     # Render messages
     for msg in msgs:
         if msg.get("image"):
-            continue  # skip image-generation records in chat view
+            continue
         role = msg["role"]
         avatar_cls = "avatar-user" if role == "user" else "avatar-ai"
         avatar_icon = "U" if role == "user" else "✦"
@@ -756,7 +936,7 @@ else:
         img_html = ""
         if "uploaded_image" in msg:
             b64 = base64.b64encode(msg["uploaded_image"]).decode()
-            img_html = f'<img src="data:image/png;base64,{b64}" style="max-width:220px;border-radius:10px;margin-bottom:8px;display:block;">'
+            img_html = f'<img src="data:image/png;base64,{b64}" style="max-width:200px;border-radius:10px;margin-bottom:8px;display:block;">'
 
         st.markdown(f"""
         <div class="chat-row {row_cls}">
@@ -766,17 +946,17 @@ else:
         """, unsafe_allow_html=True)
 
     # Image upload
-    with st.expander("📎  Attach an image for analysis"):
+    with st.expander("📎  Attach image"):
         uploaded_file = st.file_uploader(
             "upload",
             type=["png", "jpg", "jpeg", "webp", "gif"],
             label_visibility="collapsed",
         )
         if uploaded_file:
-            st.image(uploaded_file, width=180, caption="Ready to analyze")
+            st.image(uploaded_file, width=150)
 
     # Chat input
-    user_input = st.chat_input("Message NeoChat AI…")
+    user_input = st.chat_input("Message NeoChat…")
 
     if user_input:
         set_chat_title(user_input)
@@ -797,13 +977,13 @@ else:
             <div class="chat-row user-row">
                 <div class="avatar avatar-user">U</div>
                 <div class="bubble-user">
-                    <img src="data:image/png;base64,{b64}" style="max-width:200px;border-radius:10px;margin-bottom:8px;display:block;">
+                    <img src="data:image/png;base64,{b64}" style="max-width:180px;border-radius:10px;margin-bottom:8px;display:block;">
                     {user_input}
                 </div>
             </div>
             """, unsafe_allow_html=True)
 
-            with st.spinner("Analyzing image…"):
+            with st.spinner("Analyzing…"):
                 try:
                     answer = analyze_image(image_bytes, user_input, mime_type)
                 except Exception as e:
@@ -832,12 +1012,6 @@ else:
                 for m in current_messages()
                 if "uploaded_image" not in m and "image" not in m
             ]
-
-            st.markdown(f"""
-            <div class="chat-row" id="ai-response-row">
-                <div class="avatar avatar-ai">✦</div>
-                <div class="bubble-ai" id="streaming-bubble">
-            """, unsafe_allow_html=True)
 
             placeholder = st.empty()
             full_resp   = ""
