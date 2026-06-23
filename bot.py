@@ -29,7 +29,7 @@ st.set_page_config(
     page_title="NeoChat AI",
     page_icon="✦",
     layout="wide",
-    initial_sidebar_state="collapsed",
+    initial_sidebar_state="expanded",
 )
 
 # ─────────────────────────────────────────────
@@ -449,74 +449,43 @@ hr {{ border-color: {T['border']} !important; margin: 0.8rem 0 !important; }}
     flex-shrink: 0;
 }}
 
-/* ── Mobile sidebar toggle button ── */
-.mob-toggle-btn {{
-    display: none;
-    position: fixed;
-    bottom: 88px;
-    left: 14px;
-    z-index: 999999;
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    background: {T['accent']};
-    color: #fff;
-    font-size: 1.5rem;
-    line-height: 1;
-    border: none;
-    cursor: pointer;
-    box-shadow: 0 4px 20px {T['accent']}99;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.15s;
+/* ── Streamlit native sidebar toggle — always visible & styled ── */
+[data-testid="collapsedControl"] {{
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: fixed !important;
+    bottom: 90px !important;
+    left: 14px !important;
+    top: auto !important;
+    right: auto !important;
+    width: 52px !important;
+    height: 52px !important;
+    min-width: 52px !important;
+    border-radius: 50% !important;
+    background: {T['accent']} !important;
+    border: none !important;
+    cursor: pointer !important;
+    box-shadow: 0 4px 22px {T['accent']}99 !important;
+    align-items: center !important;
+    justify-content: center !important;
+    z-index: 999999 !important;
+    transition: transform 0.15s !important;
 }}
-.mob-toggle-btn:active {{ transform: scale(0.93); }}
-@media (max-width: 768px) {{
-    .mob-toggle-btn {{ display: flex !important; }}
+[data-testid="collapsedControl"]:active {{
+    transform: scale(0.93) !important;
+}}
+[data-testid="collapsedControl"] svg {{
+    width: 22px !important;
+    height: 22px !important;
+    fill: #ffffff !important;
+    color: #ffffff !important;
 }}
 
 /* ── Hide Streamlit chrome ── */
 #MainMenu, footer, header {{ visibility: hidden; }}
 .stDeployButton {{ display: none; }}
 </style>
-""", unsafe_allow_html=True)
-
-# ─────────────────────────────────────────────
-# MOBILE SIDEBAR TOGGLE
-# ─────────────────────────────────────────────
-# Inject a floating ☰ button. On click it finds Streamlit's
-# own sidebar arrow button (lives in the SAME document on mobile)
-# and programmatically clicks it — no cross-frame issues.
-st.markdown("""
-<button class="mob-toggle-btn" id="mobMenuBtn" title="Menu">☰</button>
-<script>
-(function() {
-    function findAndClick() {
-        // Streamlit renders the sidebar toggle as a <button> with
-        // data-testid="collapsedControl" in the MAIN document (not an iframe).
-        var selectors = [
-            'button[data-testid="collapsedControl"]',
-            'button[aria-label="open sidebar"]',
-            'button[aria-label="close sidebar"]',
-            'button[aria-label="Open sidebar"]',
-            'button[aria-label="Close sidebar"]',
-            '[data-testid="stSidebarCollapsedControl"]',
-        ];
-        for (var i = 0; i < selectors.length; i++) {
-            var btn = document.querySelector(selectors[i]);
-            if (btn) { btn.click(); return true; }
-        }
-        return false;
-    }
-
-    document.getElementById('mobMenuBtn').addEventListener('click', function() {
-        if (!findAndClick()) {
-            // Retry once after short delay (Streamlit may still be mounting)
-            setTimeout(findAndClick, 300);
-        }
-    });
-})();
-</script>
 """, unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────
